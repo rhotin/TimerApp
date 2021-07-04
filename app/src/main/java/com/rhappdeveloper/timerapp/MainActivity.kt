@@ -151,8 +151,8 @@ class MainActivity : AppCompatActivity() {
             }
             TimerState.Paused -> {
                 binding.fabStart.isEnabled = true
-                binding.fabStop.isEnabled = false
-                binding.fabPause.isEnabled = true
+                binding.fabStop.isEnabled = true
+                binding.fabPause.isEnabled = false
             }
         }
     }
