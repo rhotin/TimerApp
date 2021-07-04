@@ -101,8 +101,60 @@ class MainActivity : AppCompatActivity() {
         updateCountdownUI()
     }
 
-    private fun startTimer(){
+    private fun startTimer() {
+        timerState = TimerState.Running
+        timer = object : CountDownTimer(secondsRemaining * 1000, 1000) {
+            override fun onFinish() = onTimerFinished()
+            override fun onTick(millisUntilFinished: Long) {
+                secondsRemaining = millisUntilFinished / 1000
+                updateCountdownUI()
+            }
+        }.start()
+    }
 
+    private fun setNewTimerLength() {
+        val lengthInMinutes = PrefUtil.getTimerLength(this)
+        timerLengthSeconds = (lengthInMinutes * 60L)
+        binding.contentLayout.progressCountdown.max = timerLengthSeconds.toInt()
+    }
+
+    private fun setPreviousTimerLength() {
+        timerLengthSeconds = PrefUtil.getPreviousTimerLengthSeconds(this)
+        binding.contentLayout.progressCountdown.max = timerLengthSeconds.toInt()
+    }
+
+    private fun updateCountdownUI() {
+        val minutesUntilFinished = secondsRemaining / 60
+        val secondsInMinutesUntilFinished = secondsRemaining - minutesUntilFinished * 60
+        val secondsStr = secondsInMinutesUntilFinished.toString()
+        binding.contentLayout.textviewCountdown.text =
+            "$minutesUntilFinished:${
+                if (secondsStr.length == 2) secondsStr
+                else "0" + secondsStr
+            }"
+        binding.contentLayout.progressCountdown.progress =
+            (timerLengthSeconds - secondsRemaining).toInt()
+    }
+
+    private fun updateButtons() {
+        //similar to switch statement in java
+        when (timerState) {
+            TimerState.Running -> {
+                binding.fabStart.isEnabled = false
+                binding.fabStop.isEnabled = true
+                binding.fabPause.isEnabled = true
+            }
+            TimerState.Stopped -> {
+                binding.fabStart.isEnabled = true
+                binding.fabStop.isEnabled = false
+                binding.fabPause.isEnabled = false
+            }
+            TimerState.Paused -> {
+                binding.fabStart.isEnabled = true
+                binding.fabStop.isEnabled = false
+                binding.fabPause.isEnabled = true
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
