@@ -11,6 +11,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.rhappdeveloper.timerapp.databinding.ActivityMainBinding
+import com.rhappdeveloper.timerapp.util.NotificationUtil
 import com.rhappdeveloper.timerapp.util.PrefUtil
 import java.util.*
 
@@ -81,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         initTimer()
 
         removeAlarm(this)
-        //Todo: hide notification
+        NotificationUtil.hideTimerNotification(this)
     }
 
     override fun onPause() {
@@ -89,9 +90,9 @@ class MainActivity : AppCompatActivity() {
         if (timerState == TimerState.Running) {
             timer.cancel()
             val wakeUpTime = setAlarm(this, nowSeconds, secondsRemaining)
-            //Todo: show notification
+            NotificationUtil.showTimerRunning(this, wakeUpTime)
         } else if (timerState == TimerState.Paused) {
-            //Todo: show notification
+            NotificationUtil.showTimerPaused(this)
         }
 
         PrefUtil.setPreviousTimerLengthSeconds(timerLengthSeconds, this)
