@@ -2,9 +2,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SeekBarPreference
+    <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
         android:defaultValue="10"
-        android:key="com.rhappdeveloper.timerapp.timer_length"
+        android:key="com.rhappdeveloper.timer.timer_length"
         android:summary="For how many minutes should the timer run?"
         android:title="Timer Length"
         app:msbp_dialogEnabled="true"
@@ -12,4 +12,5 @@
         app:msbp_maxValue="60"
         app:msbp_measurementUnit="minutes"
         app:msbp_minValue="1" />
+
 </PreferenceScreen>

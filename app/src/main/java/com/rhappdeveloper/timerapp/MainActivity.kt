@@ -59,19 +59,19 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setIcon(R.drawable.ic_timer)
         supportActionBar?.title = "     Timer"
 
-        binding.fabStart.setOnClickListener { v ->
+        binding.fabStart.setOnClickListener {
             startTimer()
             timerState = TimerState.Running
             updateButtons()
         }
 
-        binding.fabPause.setOnClickListener { v ->
+        binding.fabPause.setOnClickListener {
             timer.cancel()
             timerState = TimerState.Paused
             updateButtons()
         }
 
-        binding.fabStop.setOnClickListener { v ->
+        binding.fabStop.setOnClickListener {
             timer.cancel()
             onTimerFinished()
         }
